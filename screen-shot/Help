@@ -1,0 +1,73 @@
+Flicker:
+
+https://code.tutsplus.com/tutorials/how-to-create-a-photo-gallery-using-the-flickr-api--net-7708
+
+==============================================================================================================================================
+composer create-project symfony/website-skeleton:4.4.x-dev jingesh-project
+composer require symfony/web-server-bundle --dev
+
+php bin/console server:run
+
+.env
+DATABASE_URL=mysql://root:@127.0.0.1:3306/symfony_jignesh?serverVersion=5.7
+
+bin/console doctrine:database:create
+
+bin/console make:user
+bin/console make:auth
+
+bin/console doctrine:schema:update
+
+php bin/console security:encode-password Somepassword1234!
+
+composer require easycorp/easyadmin-bundle
+composer req admin
+
+bin/console make:entity Category
+clear
+bin/console make:migration
+bin/console doctrine:migrations:migrate
+
+bin/console make:migration
+
+===============================================================================================================================================
+
+https://ourcodeworld.com/articles/read/637/introduction-to-symfony-4-creating-your-first-hello-world-application
+
+video 
+
+https://codereviewvideos.com/course/symfony-4-beginners-tutorial
+
+
+Admin:
+
+https://getbootstrap.com/docs/4.5/examples/dashboard/
+
+
+Tutorial:
+https://github.com/gregurco/jobeet-tutorial
+
+Autenticate User:
+
+https://auth0.com/blog/creating-your-first-symfony-app-and-adding-authentication/
+https://ourcodeworld.com/articles/read/1057/how-to-implement-your-own-user-authentication-system-in-symfony-4-3-part-1-creating-a-custom-user-class
+
+
+
+========================================================================================================================================================
+Login page design in bootstrap:
+
+https://www.codeply.com/go/Am5LvvjTxC
+
+adminuser@example.com
+Somepassword1234!
+
+====================================================================================================================================================
+
+Flicker & Javascipt
+https://codeburst.io/multiple-ways-of-implementing-flickr-public-api-in-jquery-and-javascript-dbaf0f35bbef
+http://www.demo.yogihosting.com/e/flickr-api-multiple-ways/
+
+
+
+
