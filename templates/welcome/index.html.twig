@@ -1,0 +1,177 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello WelcomeController!{% endblock %}
+
+{% block body %}
+<style>
+{# body {background:#f8f9fa; margin: 0;} #}
+/* Vertical Tabs */
+ .vertical-tabs{
+    font-size:15px;
+    padding:10px;
+    color:#000
+}
+ .vertical-tabs .nav-tabs .nav-link{
+    border-radius: 0;
+    background:green;
+    text-align:center;
+    font-size: 16px;
+    border:1px solid #424242;
+    color:#fff;
+    height:40px;
+    width: 120px;
+}
+ .vertical-tabs .nav-tabs .nav-link.active{
+    background-color:darkgreen!important;
+    color:#fff;
+}
+ .vertical-tabs .tab-content>.active{
+    background:#fff;
+    display:block;
+}
+ .vertical-tabs .nav.nav-tabs{
+    border-bottom:0;
+    border-right:3px solid #000;
+    display:block;
+    float:left;
+    margin-right:20px;
+    padding-right:15px;
+}
+ .vertical-tabs .sv-tab-panel{
+    background:#fff;
+    height:274px;
+    padding-top:10px;
+}
+@media only screen and (max-width: 420px){
+  .titulo{font-size: 22px}
+}
+@media only screen and (max-width: 325px){
+  .vertical-tabs{ padding:8px;}
+}
+footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color:#fff;
+    font-size: 9px;
+}
+.portfolio-menu{
+	text-align:center;
+}
+.portfolio-menu ul li{
+	display:inline-block;
+	margin:0;
+	list-style:none;
+	padding:10px 15px;
+	cursor:pointer;
+	-webkit-transition:all 05s ease;
+	-moz-transition:all 05s ease;
+	-ms-transition:all 05s ease;
+	-o-transition:all 05s ease;
+	transition:all .5s ease;
+}
+
+.portfolio-item{
+	/*width:100%;*/
+}
+.portfolio-item .item{
+	/*width:303px;*/
+	float:left;
+	margin-bottom:10px;
+}
+
+</style>
+
+<div class="example-wrapper">
+  <h1 class="text-center titulo">Gallary Categories</h1>
+  <div class="container">
+    <div class="vertical-tabs">
+      <ul class="nav nav-tabs" role="tablist">
+        {% for category in categories %}
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#pag{{category.id}}" role="tab" aria-controls="home">{{category.title}}</a>
+          </li>
+        {% endfor %}  
+      </ul>
+      <div class="tab-content">
+         {% for category in categories %}
+            <div class="tab-pane" id="pag{{category.id}}" role="tabpanel">
+              <div class="sv-tab-panel">
+                <div class="container">
+                    <div id="content">
+                        <div id="outputDiv" class="portfolio-item row"></div>
+                        </div>
+                      </div>
+                  </div>
+            </div>
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
+ <script>
+ var currentHrefName = '';
+        /*JavaScript Method*/
+        /*function JavaScriptFetch() {
+            var script = document.createElement('script');
+            script.src = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=" + document.getElementById("search").value;;
+            document.querySelector('head').appendChild(script);
+        }*/
+        
+        function jsonFlickrFeed(data) {
+            var image = "";
+            data.items.forEach(function (element) {
+                largeImg = element.media.m.replace('_m.' , '.');
+                image += "<div class='item selfie col-lg-3 col-md-4 col-6 col-sm'><a title='"+ element.title +"' href='"+ largeImg +"'  class='fancylight popup-btn' data-fancybox-group='light'><img class='img-fluid rounded-sm' src=\"" + element.media.m + "\"/></a></div>";
+            });
+
+            //document.getElementById("outputDiv").innerHTML = image;
+             $(currentHrefName+"#outputDiv").html(image);
+             var popup_btn = $(currentHrefName+'.popup-btn');
+                popup_btn.magnificPopup({
+                    titleSrc: 'title',
+                    type : 'image',
+                    gallery : {
+                        enabled : true
+                    }
+                });
+        }
+        /*End*/
+
+        $(document).ready(function () {
+           
+            $(".vertical-tabs .nav-link").click(function (e) {
+                hrefName = $(this).attr("href")+" ";
+                $(hrefName+"#outputDiv").html("");
+                currentHrefName = hrefName;
+                category = $(this).text();
+                $(".titulo").text(category+" gallery");
+                /*jQuery AJAX Method*/
+                var flickerAPI = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=" +category;
+                console.log(flickerAPI,hrefName);
+                $.ajax({
+                    url: flickerAPI,
+                    dataType: "jsonp", // jsonp
+                    jsonpCallback: 'jsonFlickrFeed', // add this property
+                    success: function (result, status, xhr) {
+                        /*$.each(result.items, function (i, item) {
+                             $("<img>").attr("src", item.media.m).appendTo(hrefName+"#outputDiv");
+                                if (i === 5) {
+                                    return false;
+                                }
+                        });*/
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr)
+                        $(hrefName+"#outputDiv").html("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                    }
+                });
+                /*End*/
+            });
+        });
+    </script>
+{% endblock %}
