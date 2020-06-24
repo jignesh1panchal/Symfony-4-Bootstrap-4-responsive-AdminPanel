@@ -1,0 +1,9 @@
+index:
+   path: /
+   controller: App\Controller\WelcomeController::index
+# admin:
+#    path: newadmin_category
+#    controller: App\Controller\AdminCategoryController::index
+admin:
+  path: /admin
+  controller: EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController
